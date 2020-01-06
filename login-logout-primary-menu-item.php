@@ -23,8 +23,6 @@
  * Requires at least: 4.6
  */
 
-// need to add code to create 'Loginout' menu.
-
 add_filter(
 	'wp_nav_menu_items',
 	function ( $items, $args ) {
