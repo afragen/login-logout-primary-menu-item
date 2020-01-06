@@ -26,7 +26,10 @@
 add_filter(
 	'wp_nav_menu_items',
 	function ( $items, $args ) {
-		$items .= '<li class="menu-item">' . \wp_loginout( 'index.php', false ) . '</li>';
+		// Hopefully this only targets a primary list style menu.
+		if ( 'wp_page_menu' === $args->fallback_cb && empty( $args->walker ) ) {
+			$items .= '<li class="menu-item">' . \wp_loginout( 'index.php', false ) . '</li>';
+		}
 
 		return $items;
 	},
