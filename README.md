@@ -11,3 +11,5 @@
 * Requires at least: 4.6
 
 Add a login/logout item to the WordPress primary menu.
+
+I'm trying to make this both inclusive and selective to the primary menu.

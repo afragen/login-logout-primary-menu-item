@@ -14,7 +14,7 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
@@ -23,10 +23,13 @@
  * Requires at least: 4.6
  */
 
+/**
+ * Filter to target only a primary menu.
+ * This should not target custom nav walkers.
+ */
 add_filter(
 	'wp_nav_menu_items',
 	function ( $items, $args ) {
-		// Hopefully this only targets a primary list style menu.
 		if ( 'wp_page_menu' === $args->fallback_cb && empty( $args->walker ) ) {
 			$items .= '<li class="menu-item">' . \wp_loginout( 'index.php', false ) . '</li>';
 		}
