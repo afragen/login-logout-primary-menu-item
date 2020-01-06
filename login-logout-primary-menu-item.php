@@ -23,10 +23,12 @@
  * Requires at least: 4.6
  */
 
+// need to add code to create 'Loginout' menu.
+
 add_filter(
 	'wp_nav_menu_items',
 	function ( $items, $args ) {
-		$items .= '<li>' . wp_loginout( 'index.php' ) . '</li>';
+		$items .= '<li class="menu-item">' . \wp_loginout( 'index.php', false ) . '</li>';
 
 		return $items;
 	},
