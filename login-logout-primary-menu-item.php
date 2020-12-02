@@ -14,7 +14,7 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.4.0
+ * Version:           0.4.1
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
@@ -40,6 +40,6 @@ add_filter(
 
 		return $items;
 	},
-	10,
+	15,
 	2
 );
