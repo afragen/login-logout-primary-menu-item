@@ -14,7 +14,7 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.4.1.1
+ * Version:           0.4.1.2
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
@@ -55,13 +55,13 @@ add_filter(
 				'blockName'    => 'core/navigation-link',
 				'attrs'        => [
 					'className'     => ' menu-item menu-item-type-custom menu-item-object-custom',
-					'description'   => '',
-					'id'            => null,
+					'description'   => __( 'Add login/logout menu item', 'login-logout-primary-menu-item' ),
+					'id'            => count( $blocks ) + 1,
 					'kind'          => 'custom',
-					'label'         => is_user_logged_in() ? 'Log out' : 'Log in',
+					'label'         => is_user_logged_in() ? __( 'Log out', 'login-logout-primary-menu-item' ) : __( 'Log in', 'login-logout-primary-menu-item' ),
 					'opensInNewTab' => false,
 					'rel'           => null,
-					'title'         => '',
+					'title'         => __( 'Login/logout menu item', 'login-logout-primary-menu-item' ),
 					'type'          => 'custom',
 					'url'           => is_user_logged_in() ? wp_logout_url( 'index.php' ) : wp_login_url( 'index.php' ),
 				],
