@@ -14,7 +14,7 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.4.1.3
+ * Version:           0.4.1.4
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
@@ -48,7 +48,7 @@ add_filter(
  * Filter to target block navigation menu items.
  */
 add_filter(
-	'block_navigation_inner_blocks',
+	'render_block_core_navigation_inner_blocks',
 	function( $inner_blocks ) {
 		$count = $inner_blocks->count();
 		if ( 0 < $count ) {
