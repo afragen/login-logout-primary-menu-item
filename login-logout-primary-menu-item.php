@@ -14,7 +14,7 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.4.1.2
+ * Version:           0.4.1.3
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
@@ -45,18 +45,19 @@ add_filter(
 );
 
 /**
- * Filter to target block navigation menu.
+ * Filter to target block navigation menu items.
  */
 add_filter(
-	'block_list_blocks',
-	function( $blocks ) {
-		if ( empty( $blocks ) || ( isset( $blocks[0] ) && strpos( $blocks[0]['blockName'], 'link' ) ) ) {
+	'block_navigation_inner_blocks',
+	function( $inner_blocks ) {
+		$count = $inner_blocks->count();
+		if ( 0 < $count ) {
 			$login_logout = [
 				'blockName'    => 'core/navigation-link',
 				'attrs'        => [
 					'className'     => ' menu-item menu-item-type-custom menu-item-object-custom',
 					'description'   => __( 'Add login/logout menu item', 'login-logout-primary-menu-item' ),
-					'id'            => count( $blocks ) + 1,
+					'id'            => $count + 1,
 					'kind'          => 'custom',
 					'label'         => is_user_logged_in() ? __( 'Log out', 'login-logout-primary-menu-item' ) : __( 'Log in', 'login-logout-primary-menu-item' ),
 					'opensInNewTab' => false,
@@ -69,10 +70,9 @@ add_filter(
 				'innerHTML'    => '',
 				'innerContent' => [],
 			];
-
-			$blocks[] = $login_logout;
 		}
+		$inner_blocks->offsetSet( null, $login_logout );
 
-		return $blocks;
+		return $inner_blocks;
 	}
 );
