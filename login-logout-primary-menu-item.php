@@ -48,7 +48,7 @@ add_filter(
  * Filter to target block navigation menu items.
  */
 add_filter(
-	'block_navigation_inner_blocks',
+	'render_block_core_navigation_inner_blocks',
 	function( $inner_blocks ) {
 		$count = $inner_blocks->count();
 		if ( 0 < $count ) {
