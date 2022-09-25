@@ -28,11 +28,6 @@
     },
     "prefer-stable": true,
     "require": {
-        "php": ">=5.6"
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "wp i18n make-pot . languages/login-logout-primary-menu-item.pot"
-        ]
+        "php": ">=7.2"
     }
 }

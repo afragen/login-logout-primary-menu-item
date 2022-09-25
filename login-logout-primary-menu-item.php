@@ -14,13 +14,13 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.4.1.4
+ * Version:           0.5.0
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
  * GitHub Plugin URI: https://github.com/afragen/login-logout-primary-menu-item
- * Requires PHP:      5.6
- * Requires at least: 4.6
+ * Requires PHP:      7.2
+ * Requires at least: 5.2
  */
 
 /**
@@ -46,9 +46,11 @@ add_filter(
 
 /**
  * Filter to target block navigation menu items.
+ *
+ * @since WP 6.1.0 / Gutenberg 14.1.x
  */
 add_filter(
-	'render_block_core_navigation_inner_blocks',
+	'block_core_navigation_render_inner_blocks',
 	function( $inner_blocks ) {
 		$count = $inner_blocks->count();
 		if ( 0 < $count ) {
