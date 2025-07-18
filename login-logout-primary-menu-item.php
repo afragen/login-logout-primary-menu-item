@@ -14,67 +14,69 @@
  * Author:            Andy Fragen
  * Author URI:        http://thefragens.com/
  * Description:       Adds a login/logout menu item to the primary menu.
- * Version:           0.5.0
+ * Version:           0.6.0
  * Domain Path:       /languages
  * Text Domain:       login-logout-primary-menu-item
  * License:           MIT
  * GitHub Plugin URI: https://github.com/afragen/login-logout-primary-menu-item
- * Requires PHP:      7.2
- * Requires at least: 5.2
+ * Requires PHP:      7.4
+ * Requires at least: 5.9
  */
 
-/**
- * Filter to target only a primary menu.
- * This should not target custom nav walkers.
- */
-add_filter(
-	'wp_nav_menu_items',
-	function ( $items, $args ) {
-		if ( ( 'wp_page_menu' === $args->fallback_cb && empty( $args->walker ) )
-			|| false !== strpos( $args->theme_location, 'primary' )
-			|| false !== strpos( $args->menu->slug, 'default' )
-			|| false !== strpos( $args->menu->slug, 'primary' )
-		) {
-			$items .= '<li class="menu-item">' . \wp_loginout( 'index.php', false ) . '</li>';
-		}
+namespace Fragen\Login_Logout;
 
-		return $items;
-	},
-	15,
-	2
-);
+bootstrap();
 
-/**
- * Filter to target block navigation menu items.
- *
- * @since WP 6.1.0 / Gutenberg 14.1.x
- */
-add_filter(
-	'block_core_navigation_render_inner_blocks',
-	function( $inner_blocks ) {
-		$count = $inner_blocks->count();
-		if ( 0 < $count ) {
-			$login_logout = [
-				'blockName'    => 'core/navigation-link',
-				'attrs'        => [
-					'className'     => ' menu-item menu-item-type-custom menu-item-object-custom',
-					'description'   => __( 'Add login/logout menu item', 'login-logout-primary-menu-item' ),
-					'id'            => $count + 1,
-					'kind'          => 'custom',
-					'label'         => is_user_logged_in() ? __( 'Log out', 'login-logout-primary-menu-item' ) : __( 'Log in', 'login-logout-primary-menu-item' ),
-					'opensInNewTab' => false,
-					'rel'           => null,
-					'title'         => __( 'Login/logout menu item', 'login-logout-primary-menu-item' ),
-					'type'          => 'custom',
-					'url'           => is_user_logged_in() ? wp_logout_url( 'index.php' ) : wp_login_url( 'index.php' ),
-				],
-				'innerBlocks'  => [],
-				'innerHTML'    => '',
-				'innerContent' => [],
-			];
-		}
-		$inner_blocks->offsetSet( null, $login_logout );
+function bootstrap() {
+	/**
+	 * Filter to target only a primary menu.
+	 * This should not target custom nav walkers.
+	 */
+	add_filter( 'wp_nav_menu_items', __NAMESPACE__ . '\\classic_menu', 15, 2 );
 
-		return $inner_blocks;
+	/**
+	 * Filter to target block navigation menu items.
+	 *
+	 * @since WP 6.1.0 / Gutenberg 14.1.x
+	 */
+	add_filter( 'block_core_navigation_render_inner_blocks', __NAMESPACE__ . '\\block_menu' );
+}
+
+function classic_menu( $items, $args ) {
+	if ( ( 'wp_page_menu' === $args->fallback_cb && empty( $args->walker ) )
+		|| str_contains( $args->theme_location, 'primary' )
+		|| str_contains( $args->menu->slug, 'default' )
+		|| str_contains( $args->menu->slug, 'primary' )
+	) {
+		$items .= '<li class="menu-item">' . wp_loginout( 'index.php', false ) . '</li>';
 	}
-);
+
+	return $items;
+}
+
+function block_menu( $inner_blocks ) {
+	$count = $inner_blocks->count();
+	if ( 0 < $count ) {
+		$login_logout = [
+			'blockName'    => 'core/navigation-link',
+			'attrs'        => [
+				'className'     => ' menu-item menu-item-type-custom menu-item-object-custom',
+				'description'   => __( 'Add login/logout menu item', 'login-logout-primary-menu-item' ),
+				'id'            => $count + 1,
+				'kind'          => 'custom',
+				'label'         => is_user_logged_in() ? __( 'Log out', 'login-logout-primary-menu-item' ) : __( 'Log in', 'login-logout-primary-menu-item' ),
+				'opensInNewTab' => false,
+				'rel'           => null,
+				'title'         => __( 'Login/logout menu item', 'login-logout-primary-menu-item' ),
+				'type'          => 'custom',
+				'url'           => is_user_logged_in() ? wp_logout_url( 'index.php' ) : wp_login_url( 'index.php' ),
+			],
+			'innerBlocks'  => [],
+			'innerHTML'    => '',
+			'innerContent' => [],
+		];
+	}
+	$inner_blocks->offsetSet( null, $login_logout );
+
+	return $inner_blocks;
+}
